@@ -1,0 +1,85 @@
+@model AndtrWeb.Models.SharedReview
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@Model.Name</title>
+    <link rel="stylesheet" href="~/css/customer.css" />
+</head>
+<body>
+<header class="topbar">
+    <strong>Medical Safety Platform</strong>
+    <nav><a href="#">Profile</a> | <a href="#">Logout</a></nav>
+</header>
+
+<nav class="breadcrumb">
+    <a asp-controller="Customer" asp-action="Dashboard">Dashboard</a> &gt;
+    <a asp-controller="Customer" asp-action="Dashboard">Shared Findings</a> &gt;
+    <span>Review Details</span>
+</nav>
+
+<div class="page">
+    <section class="panel">
+        <h1>@Model.Name</h1>
+        <p><b>Device:</b> @Model.DeviceName</p>
+        <p><b>Review shared by:</b> @Model.SharedBy</p>
+        <p><b>Date shared:</b> @Model.SharedDate.ToString("dd MMM yyyy")</p>
+        @if (Model.AccessExpires.HasValue)
+        {
+            <p><b>Access expires:</b> @Model.AccessExpires.Value.ToString("dd MMM yyyy")</p>
+        }
+    </section>
+
+    <section class="panel">
+        <h2>Risk Review Information</h2>
+        <p><b>Risk level:</b> <span class="risk @Model.RiskLevel">@Model.RiskLevel</span></p>
+        <p><b>Recall reference:</b> @Model.RecallReference</p>
+        <p><b>Model number:</b> @Model.ModelNumber</p>
+        <p><b>Lot code:</b> @Model.LotCode</p>
+
+        <h3>Summary of Finding</h3>
+        <p>@Model.Summary</p>
+
+        <h3>Potential Risks</h3>
+        <p>@Model.PotentialRisks</p>
+
+        <h3>Recommended Actions</h3>
+        <p>@Model.RecommendedActions</p>
+    </section>
+
+    <section class="panel actions">
+        <a class="btn" asp-controller="Customer" asp-action="Dashboard">Back to Shared Findings</a>
+        <a class="btn secondary" href="#comments">Ask a Question</a>
+    </section>
+
+    <section class="panel" id="comments">
+        <h2>Comments (@Model.Comments.Count)</h2>
+
+        @if (!Model.Comments.Any())
+        {
+            <p class="muted">No comments yet. Use the box below to ask a question.</p>
+        }
+        @foreach (var c in Model.Comments)
+        {
+            <div class="comment @c.Role">
+                <b>@c.Author</b> <span class="muted">(@c.Role, @c.Date.ToString("dd MMM yyyy HH:mm"))</span>
+                <p>@c.Text</p>
+            </div>
+        }
+
+        <form asp-controller="Customer" asp-action="AddComment" asp-route-id="@Model.Id" method="post">
+            <textarea name="text" rows="3" placeholder="Write a comment or question..." required></textarea>
+            <button type="submit" class="btn">Post comment</button>
+        </form>
+    </section>
+</div>
+
+<footer>
+    <a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Contact Support</a>
+</footer>
+</body>
+</html>
