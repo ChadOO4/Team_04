@@ -24,11 +24,32 @@ public class CustomerController : Controller
         return View(vm);
     }
 
-    // Placeholder so "View Details" works; we'll build the real page next
     public IActionResult Details(int id)
     {
+        // Temporary: pretend customer1 is logged in
         var review = SampleData.Reviews.FirstOrDefault(r => r.Id == id && r.CustomerUsername == "customer1");
-        if (review is null || review.Status != "Available") return NotFound();
-        return Content($"Details for: {review.Name}");
+        if (review is null) return NotFound();                       // not shared with this customer
+        if (review.Status != "Available") return RedirectToAction("Dashboard");
+        return View(review);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult AddComment(int id, string text)
+    {
+        var review = SampleData.Reviews.FirstOrDefault(r => r.Id == id && r.CustomerUsername == "customer1");
+        if (review is null) return NotFound();
+
+        if (!string.IsNullOrWhiteSpace(text))
+        {
+            review.Comments.Add(new ReviewComment
+            {
+                Author = "Customer One",
+                Role = "Customer",
+                Text = text.Trim(),
+                Date = DateTime.Now
+            });
+        }
+        return RedirectToAction("Details", "Customer", new { id }, "comments");
     }
 }
