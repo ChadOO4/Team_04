@@ -1,0 +1,71 @@
+@model AndtrWeb.Models.CustomerDashboardViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" href="~/css/customer.css" />
+</head>
+<body>
+<header class="topbar">
+    <strong>Medical Safety Platform</strong>
+    <nav><a href="#">Profile</a> | <a href="#">Logout</a></nav>
+</header>
+
+<section class="welcome">
+    <h1>Welcome, @Model.CustomerName</h1>
+    <p>View and manage your shared safety reviews.</p>
+</section>
+
+<form asp-controller="Customer" asp-action="Dashboard" method="get" class="search">
+    <input name="search" value="@Model.Search" placeholder="Search shared findings..." />
+    <button type="submit">Search</button>
+</form>
+
+<div class="layout">
+    <aside class="sidebar">
+        <h3>Navigation</h3>
+        <ul>
+            <li class="active"><a asp-controller="Customer" asp-action="Dashboard">Dashboard</a></li>
+            <li><a href="#">Shared Findings</a></li>
+            <li><a href="#">My Comments</a></li>
+            <li><a href="#">Notifications</a></li>
+            <li><a href="#">My Profile</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <h3>Shared Reviews</h3>
+        @if (!Model.Reviews.Any())
+        {
+            <p>No shared reviews found.</p>
+        }
+        @foreach (var r in Model.Reviews)
+        {
+            <article class="card">
+                <p><b>Review:</b> @r.Name</p>
+                <p><b>Device:</b> @r.DeviceName</p>
+                <p><b>Shared:</b> @r.SharedDate.ToString("dd MMM yyyy")</p>
+                <p><b>Status:</b> <span class="badge @r.Status">@r.Status</span></p>
+                @if (r.Status == "Available")
+                {
+                    <a class="btn" asp-controller="Customer" asp-action="Details" asp-route-id="@r.Id">View Details</a>
+                }
+                else
+                {
+                    <span class="btn disabled">View Details</span>
+                }
+            </article>
+        }
+    </main>
+</div>
+
+<footer>
+    <a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Contact Support</a>
+</footer>
+</body>
+</html>

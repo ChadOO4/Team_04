@@ -1,0 +1,20 @@
+body { font-family: "Segoe UI", Arial, sans-serif; margin: 0; background: #f3f5f8; color: #1c2430; }
+.topbar { background: #12395f; color: #fff; display: flex; justify-content: space-between; padding: .8rem 1.2rem; }
+.topbar a { color: #fff; text-decoration: none; }
+.welcome, .search { padding: 1rem 1.2rem; background: #fff; border-bottom: 1px solid #d5dbe3; }
+.search input { width: 60%; padding: .5rem; }
+.search button { padding: .5rem 1rem; background: #12395f; color: #fff; border: 0; border-radius: 4px; }
+.layout { display: grid; grid-template-columns: 220px 1fr; gap: 1rem; padding: 1rem 1.2rem; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { padding: .4rem .6rem; }
+.sidebar li.active { background: #dfe8f3; font-weight: 600; border-radius: 4px; }
+.sidebar a { text-decoration: none; color: inherit; }
+.card { background: #fff; border: 1px solid #d5dbe3; border-radius: 6px; padding: .6rem 1rem; margin-bottom: 1rem; max-width: 420px; }
+.badge { padding: .1rem .5rem; border-radius: 10px; font-size: .85rem; }
+.badge.Available { background: #d4edda; }
+.badge.Expired { background: #fff3cd; }
+.badge.Unavailable { background: #f8d7da; }
+.btn { display: inline-block; padding: .4rem .9rem; background: #12395f; color: #fff; border-radius: 4px; text-decoration: none; }
+.btn.disabled { background: #aab2bd; cursor: not-allowed; }
+footer { text-align: center; padding: 1rem; border-top: 1px solid #d5dbe3; }
+@media (max-width: 700px) { .layout { grid-template-columns: 1fr; } }

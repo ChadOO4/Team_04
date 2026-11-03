@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndtrWeb", "AndtrWeb\AndtrWeb.csproj", "{DA973A82-63D4-4846-8FD1-414683C2F8CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA973A82-63D4-4846-8FD1-414683C2F8CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA973A82-63D4-4846-8FD1-414683C2F8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA973A82-63D4-4846-8FD1-414683C2F8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA973A82-63D4-4846-8FD1-414683C2F8CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
