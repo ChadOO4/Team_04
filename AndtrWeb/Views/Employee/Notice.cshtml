@@ -1,0 +1,54 @@
+@model AndtrWeb.Models.RecallNotice
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@Model.DisplayName</title>
+    <link rel="stylesheet" href="~/css/customer.css" />
+</head>
+<body>
+<header class="topbar">
+    <strong>Medical Safety Platform - Employee</strong>
+    <nav><a href="#">Profile</a> | <a href="#">Logout</a></nav>
+</header>
+
+<nav class="breadcrumb">
+    <a asp-controller="Employee" asp-action="Search">Search</a> &gt; <span>Notice details</span>
+</nav>
+
+<div class="page">
+    <section class="panel">
+        <h1>@Model.DisplayName</h1>
+        <p>
+            <span class="risk @Model.RiskLevel">Class @Model.RecallClass - @Model.RiskLevel risk</span>
+            <span class="badge @(Model.Ongoing ? "Expired" : "Available")">@(Model.Ongoing ? "Ongoing" : "Terminated")</span>
+        </p>
+        <p><b>Recall number:</b> @Model.RecallNumber</p>
+        <p><b>Manufacturer / firm:</b> @Model.FirmName</p>
+        <p><b>Device type:</b> @Model.ProductCodeName (product code @Model.ProductCode, regulation @Model.RegulationNumber)</p>
+        <p><b>Classified:</b> @(Model.ClassifiedDate?.ToString("dd MMM yyyy") ?? "n/a")</p>
+        <p><b>Posted:</b> @(Model.PostedDate?.ToString("dd MMM yyyy") ?? "n/a")</p>
+        <p><b>Terminated:</b> @(Model.TerminationDate?.ToString("dd MMM yyyy") ?? "Still ongoing")</p>
+    </section>
+
+    <section class="panel">
+        <h2>Reason for recall</h2>
+        <p>@Model.RecallReason</p>
+        <h2>Product description</h2>
+        <p>@Model.ProductDescription</p>
+    </section>
+
+    <section class="panel actions">
+        <a class="btn" asp-controller="Employee" asp-action="Search">Back to search</a>
+    </section>
+</div>
+
+<footer>
+    <a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Contact Support</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,80 @@
+@model AndtrWeb.Models.EmployeeSearchViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Search Safety and Recall Notices</title>
+    <link rel="stylesheet" href="~/css/customer.css" />
+</head>
+<body>
+<header class="topbar">
+    <strong>Medical Safety Platform - Employee</strong>
+    <nav><a href="#">Profile</a> | <a href="#">Logout</a></nav>
+</header>
+
+<div class="page wide">
+    <section class="panel">
+        <h1>Search safety and recall notices</h1>
+        <form asp-controller="Employee" asp-action="Search" method="get" class="search-form">
+            <input name="q" value="@Model.Query" placeholder="e.g. heart, insulin pump, Terumo, seal failure, Z-0156-2015" />
+            <select name="recallClass">
+                <option value="">All classes</option>
+                <option value="1" selected="@(Model.RecallClass == 1)">Class 1 (High risk)</option>
+                <option value="2" selected="@(Model.RecallClass == 2)">Class 2 (Medium risk)</option>
+                <option value="3" selected="@(Model.RecallClass == 3)">Class 3 (Low risk)</option>
+            </select>
+            <select name="status">
+                <option value="">Any status</option>
+                <option value="ongoing" selected="@(Model.Status == "ongoing")">Ongoing</option>
+                <option value="terminated" selected="@(Model.Status == "terminated")">Terminated</option>
+            </select>
+            <button type="submit" class="btn">Search</button>
+        </form>
+        <p class="muted">Search covers trade name, device type, manufacturer, recall reason, description and recall number. Related words are matched too (for example "heart" also finds cardiac and cardiopulmonary).</p>
+    </section>
+
+    <p><b>@Model.TotalCount</b> notice(s) found. Page @Model.Page of @Model.TotalPages.</p>
+
+    @if (!Model.Items.Any())
+    {
+        <section class="panel"><p>No notices match your search. Try fewer or different words.</p></section>
+    }
+
+    @foreach (var hit in Model.Items)
+    {
+        var n = hit.Notice;
+        <article class="panel">
+            <h3>@n.DisplayName</h3>
+            <p>
+                <span class="risk @n.RiskLevel">Class @n.RecallClass - @n.RiskLevel risk</span>
+                <span class="badge @(n.Ongoing ? "Expired" : "Available")">@(n.Ongoing ? "Ongoing" : "Terminated")</span>
+                <span class="muted">@n.RecallNumber</span>
+            </p>
+            <p class="muted">@n.ProductCodeName &middot; @n.FirmName &middot; Classified @(n.ClassifiedDate?.ToString("dd MMM yyyy") ?? "n/a")</p>
+            <p><b>Reason:</b> @n.RecallReason</p>
+            <p class="muted">@(n.ProductDescription.Length > 220 ? n.ProductDescription[..220] + "..." : n.ProductDescription)</p>
+            <a class="btn secondary" asp-controller="Employee" asp-action="Notice" asp-route-id="@n.Id">View full notice</a>
+        </article>
+    }
+
+    <section class="panel actions">
+        @if (Model.Page > 1)
+        {
+            <a class="btn secondary" asp-action="Search" asp-route-q="@Model.Query" asp-route-recallClass="@Model.RecallClass" asp-route-status="@Model.Status" asp-route-page="@(Model.Page - 1)">&laquo; Previous</a>
+        }
+        @if (Model.Page < Model.TotalPages)
+        {
+            <a class="btn" asp-action="Search" asp-route-q="@Model.Query" asp-route-recallClass="@Model.RecallClass" asp-route-status="@Model.Status" asp-route-page="@(Model.Page + 1)">Next &raquo;</a>
+        }
+    </section>
+</div>
+
+<footer>
+    <a href="#">Help</a> | <a href="#">Privacy</a> | <a href="#">Contact Support</a>
+</footer>
+</body>
+</html>

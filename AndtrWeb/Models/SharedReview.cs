@@ -28,6 +28,9 @@ public class SharedReview
     public string PotentialRisks { get; set; } = "";
     public string RecommendedActions { get; set; } = "";
     public List<ReviewComment> Comments { get; set; } = new();
+
+    // Commenting is only allowed while the review is available and access has not expired
+    public bool CanComment => Status == "Available" && (AccessExpires == null || AccessExpires > DateTime.Now);
 }
 
 public class CustomerDashboardViewModel

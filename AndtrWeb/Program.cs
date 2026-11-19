@@ -5,6 +5,8 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+AndtrWeb.Models.RecallRepository.Load(Path.Combine(app.Environment.ContentRootPath, "Data", "recalls.csv"));
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
