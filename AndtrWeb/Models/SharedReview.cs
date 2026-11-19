@@ -17,6 +17,7 @@ public class SharedReview
     public string Status { get; set; } = "Available";   // Available | Expired | Unavailable
     public string CustomerUsername { get; set; } = "";
 
+    // Wireframe 2 fields
     public string SharedBy { get; set; } = "";
     public DateTime? AccessExpires { get; set; }
     public string RiskLevel { get; set; } = "Low";       // Low | Medium | High
